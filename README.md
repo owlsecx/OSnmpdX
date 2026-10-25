@@ -18,24 +18,20 @@
 
 ## 📌 Overview
 
-Net-SNMP snmpd / snmptrapd / snmp.conf configuration security auditor
+
+OSnmpdX is an offline, read-only Net-SNMP agent configuration auditor for snmpd.conf, the USM user store, snmptrapd.conf and snmp.conf. It checks community strings, SNMPv3 users, VACM views, extend/exec RCE handlers and AgentX exposure, masking every secret it encounters. Findings are mapped to CWE and MITRE ATT&CK, scored and graded, and exportable as TXT, Markdown, JSON, CSV or SARIF.
 
 ---
 
 ## ✨ Features
 
-- Offline, read-only parsers for snmpd.conf, snmpd.local.conf (+ includeFile / includeDir), /var/lib/snmp persistent USM store, snmptrapd.conf and snmp.conf client defaults
-- Community checks — default / weak strings, any rwcommunity, missing source, com2sec 'default'
-- SNMPv3 checks — noauth / authNoPriv, MD5 / DES, short / reused / example passphrases, rwuser
-- VACM view exposure — full tree, hrSWRun process args, ARP table, EXTEND-MIB write → RCE
-- Handler checks — extend / exec / pass / traphandle world-writable, relative, /tmp, run as root
-- AgentX / SMUX / proxy / listener exposure
-- Service args (-u / -g / -D / -Lf) & systemd units
-- Persistent-dir permissions, EOL version notes
-- CWE + MITRE ATT&CK mapping, severity, remediation
-- Score + grade, hardened templates, self-test demo
-- Export TXT / MD / JSON / CSV / SARIF 2.1.0
-- Secrets (communities, passphrases, keys) masked
+
+- Read-only parsers for snmpd.conf, snmpd.local.conf (include file/dir), /var/lib/snmp USM store, snmptrapd.conf and snmp.conf
+- Community checks: default/weak strings, any rwcommunity, missing source, com2sec 'default'
+- SNMPv3 checks: noauth/authNoPriv, MD5/DES, short/reused/example passphrases, rwuser
+- VACM view exposure (full tree, process args, ARP table) and EXTEND-MIB write-to-RCE detection
+- Handler checks for extend/exec/pass/traphandle that are world-writable, relative, in /tmp or run as root
+- CWE+ATT&CK mapping, score/grade, hardened templates and TXT/MD/JSON/CSV/SARIF export with secrets masked
 
 ---
 
@@ -48,8 +44,13 @@ Net-SNMP snmpd / snmptrapd / snmp.conf configuration security auditor
 
 ## 🚀 Usage
 
+
 ```bash
-./OSnmpdX
+./OSnmpdX --scan --format sarif -o snmpd.sarif
+./OSnmpdX --snmpd /etc/snmp/snmpd.conf --trapd /etc/snmp/snmptrapd.conf
+./OSnmpdX --root /mnt/image --fail-on high
+./OSnmpdX --demo
+./OSnmpdX --help
 ```
 
 ---
